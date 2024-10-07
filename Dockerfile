@@ -31,11 +31,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Set up ODBC DSN configuration for PostgreSQL
-RUN echo "[POSTGRESDS]\nDriver = /usr/lib/aarch64-linux-gnu/odbc/psqlodbcw.so \nServername = 172.17.0.1\nPort = 5432\nDatabase = postgresDB\n" > /etc/odbc.ini
+RUN echo "[POSTGRESDS]\nDriver = /usr/lib/x86_64-linux-gnu/odbc/psqlodbcw.so \nServername = 172.17.0.1\nPort = 5432\nDatabase = postgresDB\n" > /etc/odbc.ini
 
 # Copy the statically built Go binary from the builder stage
 COPY --from=builder /app/main /app/main
 
 # Set the binary as the entry point
 ENTRYPOINT [ "/app/main", "-dsn=POSTGRESDS", "-dbtype=postgres", "-user=admin","-password=admin" ]
-CMD ["/bin/bash"]
+# CMD ["/bin/bash"]
